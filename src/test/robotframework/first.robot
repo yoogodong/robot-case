@@ -11,6 +11,6 @@ Valid Login
 
 *** Keywords ***
 Input username and password
-	[Arguments]		${username}		${password}
+	[Arguments]	    ${username}		${password}
 	Input Text		username_field	${username}
 	Input Text		password_field	${password}

@@ -1,0 +1,891 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.12: http://docutils.sourceforge.net/" />
+<title>How to write good test cases using Robot Framework</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7614 2013-02-21 15:55:51Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="how-to-write-good-test-cases-using-robot-framework">
+<h1 class="title">How to write good test cases using Robot Framework</h1>
+
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title first">Table of contents:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#introduction" id="id11">Introduction</a></li>
+<li><a class="reference internal" href="#naming" id="id12">Naming</a><ul>
+<li><a class="reference internal" href="#test-suite-names" id="id13">Test suite names</a></li>
+<li><a class="reference internal" href="#test-case-names" id="id14">Test case names</a></li>
+<li><a class="reference internal" href="#keyword-names" id="id15">Keyword names</a></li>
+<li><a class="reference internal" href="#naming-setup-and-teardown" id="id16">Naming setup and teardown</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#documentation" id="id17">Documentation</a><ul>
+<li><a class="reference internal" href="#test-suite-documentation" id="id18">Test suite documentation</a></li>
+<li><a class="reference internal" href="#test-case-documentation" id="id19">Test case documentation</a></li>
+<li><a class="reference internal" href="#user-keyword-documentation" id="id20">User keyword documentation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#test-suite-structure" id="id21">Test suite structure</a></li>
+<li><a class="reference internal" href="#test-case-structure" id="id22">Test case structure</a><ul>
+<li><a class="reference internal" href="#workflow-tests" id="id23">Workflow tests</a></li>
+<li><a class="reference internal" href="#data-driven-tests" id="id24">Data-driven tests</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#user-keywords" id="id25">User keywords</a></li>
+<li><a class="reference internal" href="#variables" id="id26">Variables</a><ul>
+<li><a class="reference internal" href="#variable-naming" id="id27">Variable naming</a></li>
+<li><a class="reference internal" href="#passing-and-returning-values" id="id28">Passing and returning values</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#avoid-sleeping" id="id29">Avoid sleeping</a></li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h1><a class="toc-backref" href="#id11">Introduction</a></h1>
+<ul class="simple">
+<li>These are high-level guidelines for writing good test cases using Robot
+Framework.<ul>
+<li>How to actually interact with the system under test is out of
+the scope of this document.</li>
+</ul>
+</li>
+<li>Most important guideline is keeping test cases as easy to understand as
+possible for people familiar with the domain.<ul>
+<li>This typically also eases maintenance.</li>
+</ul>
+</li>
+<li>For more information about this subject, you may want to take a look at
+these great resources:<ul>
+<li><a class="reference external" href="http://www.slideshare.net/pekkaklarck/robot-framework-dos-and-donts">Robot Framework Dos and Don'ts</a> slides that are based on this how-to.</li>
+<li><a class="reference external" href="http://cwd.dhemery.com/2009/11/wmaat">Writing Maintainable Automated Acceptance Tests</a> article by Dale Emery.</li>
+<li><a class="reference external" href="http://blog.codecentric.de/en/2010/07/how-to-structure-a-scalable-and-maintainable-acceptance-test-suite">How to Structure a Scalable And Maintainable Acceptance Test Suite</a>
+blog post by Andreas Ebbert-Karroum.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="naming">
+<h1><a class="toc-backref" href="#id12">Naming</a></h1>
+<div class="section" id="test-suite-names">
+<h2><a class="toc-backref" href="#id13">Test suite names</a></h2>
+<ul class="simple">
+<li>Suite names should be as describing as possible.</li>
+<li>Names are created automatically from file or directory names:<ul>
+<li>Extensions are stripped.</li>
+<li>Underscores are converted to spaces.</li>
+<li>If name is all lower case, words are capitalized.</li>
+</ul>
+</li>
+<li>Names can be relatively long, but overly long names are not convenient on
+the file system.</li>
+<li>The name of the top level suite can be overridden from the command line
+using the <code>--name</code> option if needed.</li>
+</ul>
+<p>Examples:</p>
+<ul class="simple">
+<li><code>login_tests.robot</code> -&gt; <code>Login Tests</code></li>
+<li><code>IP_v4_and_v6</code> -&gt; <code>IP v4 and v6</code></li>
+</ul>
+</div>
+<div class="section" id="test-case-names">
+<h2><a class="toc-backref" href="#id14">Test case names</a></h2>
+<ul class="simple">
+<li>Test names should be describing similarly as suite names.</li>
+<li>If a suite contains many similar tests, and the suite itself is well named,
+test names can be shorter.</li>
+<li>Name is exactly what you you specify in the test case file without any
+conversion.</li>
+</ul>
+<p>For example, if we have tests related to invalid login in a file
+<code>invalid_login.robot</code>, these would be OK test case names:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Test Cases ***</span><span class="punctuation">
+</span><span class="generic subheading">Empty Password</span><span class="punctuation">
+</span><span class="generic subheading">Empty Username</span><span class="punctuation">
+</span><span class="generic subheading">Empty Username And Password</span><span class="punctuation">
+</span><span class="generic subheading">Invalid Username</span><span class="punctuation">
+</span><span class="generic subheading">Invalid Password</span><span class="punctuation">
+</span><span class="generic subheading">Invalid Username And Password</span>
+</pre>
+<p>These names would be somewhat long:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Test Cases ***</span><span class="punctuation">
+</span><span class="generic subheading">Login With Empty Password Should Fail</span><span class="punctuation">
+</span><span class="generic subheading">Login With Empty Username Should Fail</span><span class="punctuation">
+</span><span class="generic subheading">Login With Empty Username And Password Should Fail</span><span class="punctuation">
+</span><span class="generic subheading">Login With Invalid Username Should Fail</span><span class="punctuation">
+</span><span class="generic subheading">Login With Invalid Password Should Fail</span><span class="punctuation">
+</span><span class="generic subheading">Login With Invalid Username And Invalid Password Should Fail</span>
+</pre>
+</div>
+<div class="section" id="keyword-names">
+<h2><a class="toc-backref" href="#id15">Keyword names</a></h2>
+<ul class="simple">
+<li>Keyword names should be descriptive and clear.</li>
+<li>Should explain what the keyword does, not how it does it.</li>
+<li>Very different abstraction levels (e.g. <code>Input Text</code> or <code>Administrator
+logs into system</code>).</li>
+<li>There is no clear guideline should a keyword be fully title cased or should
+only the first letter is capitalized.<ul>
+<li>Title casing often used when the keyword name is short (e.g. <code>Input Text</code>).</li>
+<li>Capitalizing just the first letter typically works better with keywords
+that are like sentences (e.g. <code>Administrator logs into system</code>). These
+keywords are often also higher level.</li>
+</ul>
+</li>
+</ul>
+<p>Good:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Keywords ***</span><span class="punctuation">
+</span><span class="generic subheading">Login With Valid Credentials</span>
+</pre>
+<p>Bad:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Keywords ***</span><span class="punctuation">
+</span><span class="generic subheading">Input Valid Username And Valid Password And Click Login Button</span>
+</pre>
+</div>
+<div class="section" id="naming-setup-and-teardown">
+<h2><a class="toc-backref" href="#id16">Naming setup and teardown</a></h2>
+<ul class="simple">
+<li>Try to use name that describes what is done.<ul>
+<li>Possibly use an existing keyword.</li>
+</ul>
+</li>
+<li>More abstract names acceptable if a setup or teardown contain unrelated steps.<ul>
+<li>Listing steps in name is duplication and a maintenance problem
+(e.g. <code>Login to system, add user, activate alarms and check balance</code>).</li>
+<li>Often better to use something generic (e.g. <code>Initialize system</code>).</li>
+</ul>
+</li>
+<li>BuiltIn keyword <a class="reference external" href="http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Run%20Keywords">Run Keywords</a> can work well if keywords implementing lower
+level steps already exist.<ul>
+<li>Not reusable so best used when the setup or teardown scenario is
+needed only once.</li>
+</ul>
+</li>
+<li>Everyone working with these tests should always understand what a setup or
+teardown does.</li>
+</ul>
+<p>Good:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Settings ***</span><span class="punctuation">
+</span><span class="keyword namespace">Suite Setup</span><span class="punctuation">     </span><span class="name function">Initialize System</span>
+</pre>
+<p>Good (if only used once):</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Settings ***</span><span class="punctuation">
+</span><span class="keyword namespace">Suite Setup</span><span class="punctuation">     </span><span class="name function">Run Keywords</span><span class="punctuation">
+...             </span><span class="literal string">Login To System</span><span class="punctuation">    </span><span class="literal string">AND</span><span class="punctuation">
+...             </span><span class="literal string">Add User</span><span class="punctuation">           </span><span class="literal string">AND</span><span class="punctuation">
+...             </span><span class="literal string">Activate Alarms</span><span class="punctuation">    </span><span class="literal string">AND</span><span class="punctuation">
+...             </span><span class="literal string">Check Balance</span>
+</pre>
+<p>Bad:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Settings ***</span><span class="punctuation">
+</span><span class="keyword namespace">Suite Setup</span><span class="punctuation">     </span><span class="name function">Login To System, Add User, Activate Alarms And Check Balance</span>
+</pre>
+</div>
+</div>
+<div class="section" id="documentation">
+<h1><a class="toc-backref" href="#id17">Documentation</a></h1>
+<div class="section" id="test-suite-documentation">
+<h2><a class="toc-backref" href="#id18">Test suite documentation</a></h2>
+<ul class="simple">
+<li>Often a good idea to add overall documentation to test case files.</li>
+<li>Should contain background information, why tests are created, notes about
+execution environment, etc.</li>
+<li>Do not just repeat test suite name.<ul>
+<li>Better to have no documentation if it is not really needed.</li>
+</ul>
+</li>
+<li>Do not include too much details about test cases.<ul>
+<li>Tests should be clear enough to understand alone.</li>
+<li>Duplicate information is waste and maintenance problem.</li>
+</ul>
+</li>
+<li>Documentation can contain links to more information.</li>
+<li>Consider using test suite metadata if you need to document information
+represented as name-value pairs (e.g. <code>Version: 1.0</code> or <code>OS: Linux</code>).</li>
+<li>Documentation and metadata of the top level suite can be set from the
+command line using <code>--doc</code> and <code>--metadata</code> options, respectively.</li>
+</ul>
+<p>Good:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Settings ***</span><span class="punctuation">
+</span><span class="keyword namespace">Documentation</span><span class="punctuation">    </span><span class="literal string">Tests to verify that account withdrawals succeed and</span><span class="punctuation">
+...              </span><span class="literal string">fail correctly depending from users account balance</span><span class="punctuation">
+...              </span><span class="literal string">and account type dependent rules.</span><span class="punctuation">
+...              </span><span class="literal string">See http://internal.example.com/docs/abs.pdf</span><span class="punctuation">
+</span><span class="keyword namespace">Metadata</span><span class="punctuation">         </span><span class="literal string">Version</span><span class="punctuation">    </span><span class="literal string">0.1</span>
+</pre>
+<p>Bad (especially if suite is named well like <code>account_withdrawal.robot</code>):</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Settings ***</span><span class="punctuation">
+</span><span class="keyword namespace">Documentation</span><span class="punctuation">    </span><span class="literal string">Tests Account Withdrawal.</span>
+</pre>
+</div>
+<div class="section" id="test-case-documentation">
+<h2><a class="toc-backref" href="#id19">Test case documentation</a></h2>
+<ul class="simple">
+<li>Test normally do not need documentation.<ul>
+<li>Name and possible documentation of the parent suite and tests own name
+should give enough background information.</li>
+<li>Test case structure should be clear enough without documentation or other
+comments.</li>
+</ul>
+</li>
+<li>Tags are generally more flexible and provide more functionality (statistics,
+include/exclude, etc.) than documentation.</li>
+<li>Sometimes test documentation is useful. No need to be afraid to use it.</li>
+</ul>
+<p>Good:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Test Cases ***</span><span class="punctuation">
+</span><span class="generic subheading">Valid Login</span><span class="punctuation">
+    [</span><span class="keyword namespace">Tags</span><span class="punctuation">]    </span><span class="literal string">Iteration-3</span><span class="punctuation">    </span><span class="literal string">Smoke</span><span class="punctuation">
+    </span><span class="name function">Open Login Page</span><span class="punctuation">
+    </span><span class="name function">Input Username</span><span class="punctuation">    ${</span><span class="name variable">VALID USERNAME</span><span class="punctuation">}
+    </span><span class="name function">Input Password</span><span class="punctuation">    ${</span><span class="name variable">VALID PASSWORD</span><span class="punctuation">}
+    </span><span class="name function">Submit Credentials</span><span class="punctuation">
+    </span><span class="name function">Welcome Page Should Be Open</span>
+</pre>
+<p>Bad:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Test Cases ***</span><span class="punctuation">
+</span><span class="generic subheading">Valid Login</span><span class="punctuation">
+    [</span><span class="keyword namespace">Documentation</span><span class="punctuation">]    </span><span class="literal string">Opens a browser to login url, inputs valid username</span><span class="punctuation">
+    ...                </span><span class="literal string">and password and checks that the welcome page is open.</span><span class="punctuation">
+    ...                </span><span class="literal string">This is a smoke test. Created in iteration 3.</span><span class="punctuation">
+    </span><span class="name function">Open Browser</span><span class="punctuation">    ${</span><span class="name variable">URL</span><span class="punctuation">}    ${</span><span class="name variable">BROWSER</span><span class="punctuation">}
+    </span><span class="name function">Input Text</span><span class="punctuation">    </span><span class="literal string">field1</span><span class="punctuation">    ${</span><span class="name variable">UN11</span><span class="punctuation">}
+    </span><span class="name function">Input Text</span><span class="punctuation">    </span><span class="literal string">field2</span><span class="punctuation">    ${</span><span class="name variable">PW11</span><span class="punctuation">}
+    </span><span class="name function">Click Button</span><span class="punctuation">    </span><span class="literal string">button_12</span><span class="punctuation">
+    </span><span class="name function">Title Should Be</span><span class="punctuation">    </span><span class="literal string">Welcome Page</span>
+</pre>
+</div>
+<div class="section" id="user-keyword-documentation">
+<h2><a class="toc-backref" href="#id20">User keyword documentation</a></h2>
+<ul class="simple">
+<li>Not needed if keyword is relatively simple.<ul>
+<li>Good keyword and argument names and clear structure should be enough.</li>
+</ul>
+</li>
+<li>Important usage is documenting arguments and return values.</li>
+<li>Shown in resource file documentation generated with <a class="reference external" href="http://robotframework.org/robotframework/#built-in-tools">Libdoc</a> and editors
+such as <a class="reference external" href="https://github.com/robotframework/RIDE">RIDE</a> can show it in keyword completion and elsewhere.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="test-suite-structure">
+<h1><a class="toc-backref" href="#id21">Test suite structure</a></h1>
+<ul class="simple">
+<li>Tests in a suite should be related to each others.<ul>
+<li>Common setup and/or teardown is often a good indicator.</li>
+</ul>
+</li>
+<li>Should not have too many tests (max 10) in one file unless they are
+<a class="reference internal" href="#data-driven-tests">data-driven tests</a>.</li>
+<li>Tests should be independent. Initialization using setup/teardown.</li>
+<li>Sometimes dependencies between tests cannot be avoided.<ul>
+<li>For example, it can take too much time to initialize all tests separately.</li>
+<li>Never have long chains of dependent tests.</li>
+<li>Consider verifying the status of the previous test using the built-in
+<code>${PREV TEST STATUS}</code> variable.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="test-case-structure">
+<h1><a class="toc-backref" href="#id22">Test case structure</a></h1>
+<ul class="simple">
+<li>Test case should be easy to understand.</li>
+<li>One test case should be testing one thing.<ul>
+<li><em>Things</em> can be small (part of a single feature) or large (end-to-end).</li>
+</ul>
+</li>
+<li>Select suitable abstraction level.<ul>
+<li>Use abstraction level consistently (single level of abstraction principle).</li>
+<li>Do not include unnecessary details on the test case level.</li>
+</ul>
+</li>
+<li>Two kinds of test cases:<ul>
+<li><a class="reference internal" href="#workflow-tests">Workflow tests</a></li>
+<li><a class="reference internal" href="#data-driven-tests">Data-driven tests</a></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="workflow-tests">
+<h2><a class="toc-backref" href="#id23">Workflow tests</a></h2>
+<ul class="simple">
+<li>Generally have these phases:<ul>
+<li>Precondition (optional, often in setup)</li>
+<li>Action (do something to the system)</li>
+<li>Verification (validate results, mandatory)</li>
+<li>Cleanup (optional, always in teardown to make sure it is executed)</li>
+</ul>
+</li>
+<li>Keywords describe what a test does.<ul>
+<li>Use clear keyword names and suitable abstraction level.</li>
+<li>Should contain enough information to run manually.</li>
+<li>Should never need documentation or commenting to explain what the test does.</li>
+</ul>
+</li>
+<li>Different tests can have different abstraction levels.<ul>
+<li>Tests for a detailed functionality are more precise.</li>
+<li>End-to-end tests can be on very high level.</li>
+<li>One test should use only one abstraction level</li>
+</ul>
+</li>
+<li>Different styles:<ul>
+<li>More technical tests for lower level details and integration tests.</li>
+<li>&quot;Executable specifications&quot; act as requirements.</li>
+<li>Use domain language.</li>
+<li>Everyone (including customer and/or product owner) should always understand.</li>
+</ul>
+</li>
+<li>No complex logic on the test case level.<ul>
+<li>No for loops or if/else constructs.</li>
+<li>Use variable assignments with care.</li>
+<li>Test cases should not look like scripts!</li>
+</ul>
+</li>
+<li>Max 10 steps, preferably less.</li>
+</ul>
+<p>Example using &quot;normal&quot; keyword-driven style:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Test Cases ***</span><span class="punctuation">
+</span><span class="generic subheading">Valid Login</span><span class="punctuation">
+    </span><span class="name function">Open Browser To Login Page</span><span class="punctuation">
+    </span><span class="name function">Input Username</span><span class="punctuation">    </span><span class="literal string">demo</span><span class="punctuation">
+    </span><span class="name function">Input Password</span><span class="punctuation">    </span><span class="literal string">mode</span><span class="punctuation">
+    </span><span class="name function">Submit Credentials</span><span class="punctuation">
+    </span><span class="name function">Welcome Page Should Be Open</span>
+</pre>
+<p>Example using higher level &quot;gherkin&quot; style:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Test Cases ***</span><span class="punctuation">
+</span><span class="generic subheading">Valid Login</span><span class="punctuation">
+    </span><span class="generic emph">Given </span><span class="name function">browser is opened to login page</span><span class="punctuation">
+    </span><span class="generic emph">When </span><span class="name function">user &quot;demo&quot; logs in with password &quot;mode&quot;</span><span class="punctuation">
+    </span><span class="generic emph">Then </span><span class="name function">welcome page should be open</span>
+</pre>
+<p>See the <a class="reference external" href="https://bitbucket.org/robotframework/webdemo/wiki/Home">web demo project</a>
+for executable versions of the above examples.</p>
+</div>
+<div class="section" id="data-driven-tests">
+<h2><a class="toc-backref" href="#id24">Data-driven tests</a></h2>
+<ul class="simple">
+<li>One high-level keyword per test.<ul>
+<li>Different arguments create different tests.</li>
+<li>One test can run the same keyword multiple times to validate multiple
+related variations</li>
+</ul>
+</li>
+<li>If the keyword is implemented as a user keyword, it typically contains
+a similar workflow as <a class="reference internal" href="#workflow-tests">workflow tests</a>.<ul>
+<li>Unless needed elsewhere, it is a good idea to create it in the same file
+as tests using it.</li>
+</ul>
+</li>
+<li>Recommended to use the <em>test template</em> functionality.<ul>
+<li>No need to repeat the keyword multiple times.</li>
+<li>Easier to test multiple variations in one test.</li>
+</ul>
+</li>
+<li>Possible, and recommended, to name column headings</li>
+<li>If a really big number of tests is needed, consider generating them based
+on an external model.</li>
+</ul>
+<p>Example:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Settings ***</span><span class="punctuation">
+</span><span class="keyword namespace">Test Template</span><span class="punctuation">         </span><span class="name function">Login with invalid credentials should fail</span><span class="punctuation">
+
+</span><span class="generic heading">*** Test Cases ***</span><span class="punctuation">    </span><span class="generic heading">USERNAME</span><span class="punctuation">             </span><span class="generic heading">PASSWORD</span><span class="punctuation">
+</span><span class="generic subheading">Invalid Username</span><span class="punctuation">      </span><span class="literal string">invalid</span><span class="punctuation">              ${</span><span class="name variable">VALID PASSWORD</span><span class="punctuation">}
+</span><span class="generic subheading">Invalid Password</span><span class="punctuation">      ${</span><span class="name variable">VALID USERNAME</span><span class="punctuation">}    </span><span class="literal string">invalid</span><span class="punctuation">
+</span><span class="generic subheading">Invalid Both</span><span class="punctuation">          </span><span class="literal string">invalid</span><span class="punctuation">              </span><span class="literal string">invalid</span><span class="punctuation">
+</span><span class="generic subheading">Empty Username</span><span class="punctuation">        ${</span><span class="name variable">EMPTY</span><span class="punctuation">}             ${</span><span class="name variable">VALID PASSWORD</span><span class="punctuation">}
+</span><span class="generic subheading">Empty Password</span><span class="punctuation">        ${</span><span class="name variable">VALID USERNAME</span><span class="punctuation">}    ${</span><span class="name variable">EMPTY</span><span class="punctuation">}
+</span><span class="generic subheading">Empty Both</span><span class="punctuation">            ${</span><span class="name variable">EMPTY</span><span class="punctuation">}             ${</span><span class="name variable">EMPTY</span><span class="punctuation">}
+
+</span><span class="generic heading">*** Keywords ***</span><span class="punctuation">
+</span><span class="generic subheading">Login with invalid credentials should fail</span><span class="punctuation">
+    [</span><span class="keyword namespace">Arguments</span><span class="punctuation">]    ${</span><span class="name variable">username</span><span class="punctuation">}    ${</span><span class="name variable">password</span><span class="punctuation">}
+    </span><span class="name function">Input Username</span><span class="punctuation">    ${</span><span class="name variable">username</span><span class="punctuation">}
+    </span><span class="name function">Input Password</span><span class="punctuation">    ${</span><span class="name variable">password</span><span class="punctuation">}
+    </span><span class="name function">Submit Credentials</span><span class="punctuation">
+    </span><span class="name function">Error Page Should Be Open</span>
+</pre>
+<p>The <a class="reference external" href="https://bitbucket.org/robotframework/webdemo/wiki/Home">web demo project</a> contains an executable version of this example too.</p>
+</div>
+</div>
+<div class="section" id="user-keywords">
+<h1><a class="toc-backref" href="#id25">User keywords</a></h1>
+<ul class="simple">
+<li>Should be easy to understand.<ul>
+<li>Same rules as with workflow tests.</li>
+</ul>
+</li>
+<li>Different abstraction levels.</li>
+<li>Can contain some programming logic (for loops, if/else).<ul>
+<li>Especially on lower level keywords.</li>
+<li>Complex logic in libraries rather than in user keywords.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="variables">
+<h1><a class="toc-backref" href="#id26">Variables</a></h1>
+<ul class="simple">
+<li>Encapsulate long and/or complicated values.</li>
+<li>Pass information from them command line using the <code>--variable</code> option.</li>
+<li>Pass information between keywords.</li>
+</ul>
+<div class="section" id="variable-naming">
+<h2><a class="toc-backref" href="#id27">Variable naming</a></h2>
+<ul class="simple">
+<li>Clear but not too long names.</li>
+<li>Can use comments in variable table to document them more.</li>
+<li>Use case consistently:<ul>
+<li>Lower case with local variables only available inside a certain scope.</li>
+<li>Upper case with others (global, suite or test level).</li>
+<li>Both space and underscore can be used as a word separator.</li>
+</ul>
+</li>
+<li>Recommended to list also variables that are set dynamically in the variable
+table.<ul>
+<li>Set typically using BuiltIn keyword <a class="reference external" href="http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Set%20Suite%20Variable">Set Suite Variable</a>.</li>
+<li>The initial value should explain where/how the real value is set.</li>
+</ul>
+</li>
+</ul>
+<p>Example:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Settings ***</span><span class="punctuation">
+</span><span class="keyword namespace">Suite Setup</span><span class="punctuation">       </span><span class="name function">Set Active User</span><span class="punctuation">
+
+</span><span class="generic heading">*** Variables ***</span><span class="punctuation">
+</span><span class="comment"># Default system address. Override when tested agains other instances.
+</span><span class="punctuation">${</span><span class="name variable">SERVER URL</span><span class="punctuation">}     </span><span class="literal string">http://sre-12.example.com/</span><span class="punctuation">
+${</span><span class="name variable">USER</span><span class="punctuation">}           </span><span class="literal string">Actual value set dynamically at suite setup</span><span class="punctuation">
+
+</span><span class="generic heading">*** Keywords ***</span><span class="punctuation">
+</span><span class="generic subheading">Set Active User</span><span class="punctuation">
+    ${</span><span class="name variable">USER</span><span class="punctuation">} =    </span><span class="name function">Get Current User</span><span class="punctuation">    ${</span><span class="name variable">SERVER URL</span><span class="punctuation">}
+    </span><span class="name function">Set Suite Variable</span><span class="punctuation">    ${</span><span class="name variable">USER</span><span class="punctuation">}</span>
+</pre>
+</div>
+<div class="section" id="passing-and-returning-values">
+<h2><a class="toc-backref" href="#id28">Passing and returning values</a></h2>
+<ul class="simple">
+<li>Common approach is to return values from keywords, assign them to variables
+and then pass them as arguments to other keywords.<ul>
+<li>Clear and easy to follow approach.</li>
+<li>Allows creating independent keywords and facilitates re-use.</li>
+<li>Looks like programming and thus not so good on the test case level.</li>
+</ul>
+</li>
+<li>Alternative approach is storing information in a library or using the BuiltIn
+<a class="reference external" href="http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Set%20Test%20Variable">Set Test Variable</a> keyword.<ul>
+<li>Avoid programming style on the test case level.</li>
+<li>Can be more complex to follow and make reusing keywords harder.</li>
+</ul>
+</li>
+</ul>
+<p>Good:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Test Cases ***</span><span class="punctuation">
+</span><span class="generic subheading">Withdraw From Account</span><span class="punctuation">
+    </span><span class="name function">Withdraw From Account</span><span class="punctuation">    </span><span class="literal string">$50</span><span class="punctuation">
+    </span><span class="name function">Withdraw Should Have Succeeded</span><span class="punctuation">
+
+</span><span class="generic heading">*** Keywords ***</span><span class="punctuation">
+</span><span class="generic subheading">Withdraw From Account</span><span class="punctuation">
+    [</span><span class="keyword namespace">Arguments</span><span class="punctuation">]    ${</span><span class="name variable">amount</span><span class="punctuation">}
+    ${</span><span class="name variable">STATUS</span><span class="punctuation">} =    </span><span class="name function">Withdraw From User Account</span><span class="punctuation">    ${</span><span class="name variable">USER</span><span class="punctuation">}    ${</span><span class="name variable">amount</span><span class="punctuation">}
+    </span><span class="name function">Set Test Variable</span><span class="punctuation">    ${</span><span class="name variable">STATUS</span><span class="punctuation">}
+
+</span><span class="generic subheading">Withdraw Should Have Succeeded</span><span class="punctuation">
+    </span><span class="name function">Should Be Equal</span><span class="punctuation">    ${</span><span class="name variable">STATUS</span><span class="punctuation">}   </span><span class="literal string">SUCCESS</span>
+</pre>
+<p>Not so good:</p>
+<pre class="code robotframework literal-block">
+<span class="generic heading">*** Test Cases ***</span><span class="punctuation">
+</span><span class="generic subheading">Withdraw From Account</span><span class="punctuation">
+    ${</span><span class="name variable">status</span><span class="punctuation">} =    </span><span class="name function">Withdraw From Account</span><span class="punctuation">    </span><span class="literal string">$50</span><span class="punctuation">
+    </span><span class="name function">Withdraw Should Have Succeeded</span><span class="punctuation">    ${</span><span class="name variable">status</span><span class="punctuation">}
+
+</span><span class="generic heading">*** Keywords ***</span><span class="punctuation">
+</span><span class="generic subheading">Withdraw From Account</span><span class="punctuation">
+    [</span><span class="keyword namespace">Arguments</span><span class="punctuation">]    ${</span><span class="name variable">amount</span><span class="punctuation">}
+    ${</span><span class="name variable">status</span><span class="punctuation">} =    </span><span class="name function">Withdraw From User Account</span><span class="punctuation">    ${</span><span class="name variable">USER</span><span class="punctuation">}    ${</span><span class="name variable">amount</span><span class="punctuation">}
+    [</span><span class="keyword namespace">Return</span><span class="punctuation">]    ${</span><span class="name variable">status</span><span class="punctuation">}
+
+</span><span class="generic subheading">Withdraw Should Have Succeeded</span><span class="punctuation">
+    [</span><span class="keyword namespace">Arguments</span><span class="punctuation">]    ${</span><span class="name variable">status</span><span class="punctuation">}
+    </span><span class="name function">Should Be Equal</span><span class="punctuation">     ${</span><span class="name variable">status</span><span class="punctuation">}    </span><span class="literal string">SUCCESS</span>
+</pre>
+</div>
+</div>
+<div class="section" id="avoid-sleeping">
+<h1><a class="toc-backref" href="#id29">Avoid sleeping</a></h1>
+<ul class="simple">
+<li>Sleeping is a very fragile way to synchronize tests.</li>
+<li>Safety margins cause too long sleeps on average.</li>
+<li>Instead of sleeps, use keyword that polls has a certain action occurred.<ul>
+<li>Keyword names often starts with <code>Wait ...</code>.</li>
+<li>Should have a maximum time to wait.</li>
+<li>Possible to wrap other keywords inside the BuiltIn keyword
+<a class="reference external" href="http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Wait%20Until%20Keyword%20Succeeds">Wait Until Keyword Succeeds</a>.</li>
+</ul>
+</li>
+<li>Sometimes sleeping is the easiest solution.<ul>
+<li>Always use with care.</li>
+<li>Never use in user keywords that are used often by tests or other keywords.</li>
+</ul>
+</li>
+<li>Can be useful in debugging to stop execution.<ul>
+<li><a class="reference external" href="http://robotframework.org/robotframework/latest/libraries/Dialogs.html">Dialogs library</a> often works better.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</body>
+</html>
