@@ -1,3 +1,4 @@
 .idea/
-robot-case-getstart.iml
+*.iml
 target
+s101plugin.state

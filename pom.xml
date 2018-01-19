@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dong.yoogo.robot</groupId>
-    <artifactId>robot-case</artifactId>
+    <artifactId>robotframework_demo</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
@@ -29,6 +29,11 @@
                 <groupId>org.robotframework</groupId>
                 <artifactId>robotframework-maven-plugin</artifactId>
                 <version>1.4.6</version>
+                <configuration>
+                    <testCasesDirectory>
+                        ${project.basedir}/src/test//WebDemo/login_tests
+                    </testCasesDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
